@@ -3,15 +3,19 @@ from aiogram.fsm.storage.memory import MemoryStorage
 import asyncio
 from config import config
 from Database.db import Database
+from handlers.start import router as start_router
 
 
 async def main():
     bot=Bot(token=config.BOT_TOKEN)
     dp=Dispatcher(storage=MemoryStorage())
 
+
     db=Database()
     await db.connection()
     dp["db"]=db
+
+    dp.include_router(start_router)
 
     print("Bot is starting...")
     await dp.start_polling(bot)
