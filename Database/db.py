@@ -35,3 +35,15 @@ class Database:
         """
         return await self.pool.fetchrow(query,tg_id)
     
+    async def mahsulot_olish(self):
+        query="""
+        select id, name, price, description from mahsulotlar order by id;
+        """
+        
+        return await self.pool.fetch(query)
+    
+    async def user_role(self, telegram_id):
+        query = """SELECT role FROM users WHERE telegram_id=$1"""
+
+        return await self.pool.fetchval(query, telegram_id)
+    

@@ -6,6 +6,7 @@ from database.db import Database
 from handlers.start import router as start_router
 from states.register import router as register_router
 from handlers.users.profile import router as profile_router
+from handlers.mahsulotlar.products import router as products_router
 
 
 async def main():
@@ -20,6 +21,7 @@ async def main():
     dp.include_router(start_router)
     dp.include_router(register_router)
     dp.include_router(profile_router)
+    dp.include_router(products_router)
 
     print("Bot is starting...")
     await dp.start_polling(bot)
