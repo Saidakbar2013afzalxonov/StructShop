@@ -9,3 +9,6 @@ class RoleFilter(BaseFilter):
         role_in_db = await db.user_role(message.from_user.id)
         return role_in_db == self.role
     
+
+
+    

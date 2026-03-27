@@ -47,3 +47,28 @@ class Database:
 
         return await self.pool.fetchval(query, telegram_id)
     
+    async def foydalanuvchilar(self):
+        query="""
+        select name,surename,role,id from users order by id;
+        """
+        return await self.pool.fetch(query)
+    
+    async def rolni_yangilash(self,user_id,role):
+        query="""
+        update users set role=$1 where id=$2;
+        """
+
+        await self.pool.execute(query,role,user_id)
+
+    async def mahsulotni_ochirish(self,product_id):
+        query="""
+        delete from mahsulotlar where id=$1;
+        """
+        await self.pool.execute(query,product_id)
+
+    async def mahsulotni_yangilash(self,product_id,name,price,description):
+        query="""
+        update mahsulotlar set name=$1,price=$2,description=$3 where id=$4;
+        """
+        await self.pool.execute(query,name,price,description,product_id)
+    

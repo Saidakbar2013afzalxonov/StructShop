@@ -13,4 +13,7 @@ async def start_handler(msg:Message,db):
         await msg.answer("Assalomu Alaykum botga xush kelibsz!",reply_markup=asosiy_menyu())
     else:
         await msg.answer("Assalomu alaykum StructShop botiga xush kelibsiz!\nIltimos biz sizni tanib olishimiz uchun ro'yxatdan o'ting!",reply_markup=register())
+
+
+        
     
