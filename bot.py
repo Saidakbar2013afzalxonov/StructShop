@@ -13,6 +13,9 @@ from handlers.users.admin_uchun.mahsulotni_yangilash import router as mahsulotni
 from handlers.Orqaga.Orqaga import router as orqaga_router
 from handlers.mahsulot_sotib_olish.sotib_olish import router as sotib_olish_router
 from handlers.mahsulot_sotib_olish.davomi_sotib_olish import router as davomi_sotib_olish_router
+from handlers.savatcha.savatcha import router as savatcha_router
+from handlers.mahsulot_qoshish import router as mahsulot_qoshish_router
+from handlers.savatcha.savatdan_ochirish import router as savatdan_ochirish_router
 
 
 async def main():
@@ -34,6 +37,9 @@ async def main():
     dp.include_router(orqaga_router)
     dp.include_router(sotib_olish_router)
     dp.include_router(davomi_sotib_olish_router)
+    dp.include_router(savatcha_router)
+    dp.include_router(mahsulot_qoshish_router)
+    dp.include_router(savatdan_ochirish_router)
     
 
     print("Bot is starting...")

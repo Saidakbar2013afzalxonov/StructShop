@@ -13,29 +13,36 @@ class SotibOlish(StatesGroup):
     crypto_money=State()
     number_of_card=State()
 
-@router.callback_query(F.data.startswith("sotib_olish"))
+@router.callback_query(F.data.startswith("sotib_olish:"))
 async def sotib_olish(call:CallbackQuery,state:FSMContext):
     await call.message.answer(f"Mahsulotni yetkazib berishimiz uchun manzilingizni yuboring:",reply_markup=location())
     await state.set_state(SotibOlish.location)
+    await call.answer("")
 
-@router.message(SotibOlish.location, F.location)
-async def sotib_olish(msg:Message,state:FSMContext,call:CallbackQuery):
-    await state.update_data(location=msg.location)
-    await msg.answer("Siz to'lov qilmoqchi bo'lgan pul turini tanlang: ",reply_markup=crypto(call))
+@router.message(SotibOlish.location)
+async def sotib_olish_location(msg:Message,state:FSMContext):
+    if not msg.location:
+        return await msg.answer("Iltimos, tugma orqali lokatsiya yuboring!")
+    await state.update_data(latitude=msg.location.latitude, longitude=msg.location.longitude)
+    await msg.answer("Siz to'lov qilmoqchi bo'lgan pul turini tanlang: ",reply_markup=crypto())
     await state.set_state(SotibOlish.crypto_money)
 
-datalar=["crypto_UZS","crypto_RUB","crypto_USD","crypto_KZT","crypto_JPY","crypto_EUR"]
+# datalar=["crypto_UZS","crypto_RUB","crypto_USD","crypto_KZT","crypto_JPY","crypto_EUR"]
 
-@router.callback_query(F.data.in_(datalar))
-async def sotib_olish(msg:Message,state:FSMContext,call:CallbackQuery):
+@router.callback_query(F.data.startswith("crypto_"))
+async def sotib_olish2(call:CallbackQuery,state:FSMContext):
     crypto1 = call.data.split("_")[1]
     await state.update_data(crypto=crypto1)
-    await msg.answer("Karta raqamingizni kiriting: ")
+    await call.message.answer("Karta raqamingizni kiriting: ")
     await state.set_state(SotibOlish.number_of_card)
 
 @router.message(SotibOlish.number_of_card)
-async def sotib_olish(msg:Message,state:FSMContext):
+async def sotib_olish3(msg:Message,state:FSMContext):
     await state.update_data(number_of_card=msg.text)
-    await msg.answer("Mahsulot muvaffaqiyatli sotib olindi! Kerakli miqdordagi pul ham yechib olindi!",reply_markup=asosiy_menyu())
-    data = await state.get_data()
-    await state.clear()
+    if len(msg.text) == 16 or len(msg.text) == 19:
+        await msg.answer("Mahsulot muvaffaqiyatli sotib olindi! Kerakli miqdordagi pul ham yechib olindi!",reply_markup=asosiy_menyu())
+        data = await state.get_data()
+        await state.clear()
+    else:
+        await msg.answer("Iltimos haqiqiy karta raqamingizni kiriting!")
+        
