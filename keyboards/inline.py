@@ -52,9 +52,12 @@ def savatcha_kb(products):
     keyboard=[]
 
     for product in products:
-        keyboard.append([InlineKeyboardButton(text=f"{product['name'] } ({product['price']} $)",callback_data='kerak_emas'),InlineKeyboardButton(text="Mahsulotni savatdan o'chirish",callback_data=f"remove_product_{product['id']}")])
+        keyboard.append([InlineKeyboardButton(text=f"{product['name'] } ({product['price']} $)",callback_data='kerak_emas'),InlineKeyboardButton(text="Mahsulotni savatdan o'chirish",callback_data=f"remove_product_{product['id']}")]),
+    
+    keyboard.append([InlineKeyboardButton(text="Savatdagi barcha mahsulotlarga buyurtma berish",callback_data="buyurtma_berish")])
     
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
 
 def user_role(user_id):
     return InlineKeyboardMarkup(

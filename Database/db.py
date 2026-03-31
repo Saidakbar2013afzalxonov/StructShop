@@ -148,10 +148,11 @@ class Database:
                 WHERE o.user_id=$1
                 AND o.order_status='cart'
                 AND oi.product_id=$2
-                LIMIT 1
+                LIMIT 1 
             )
             """,
             user_id,
             product_id
         )
+
     

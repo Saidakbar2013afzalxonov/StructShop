@@ -13,7 +13,7 @@ class SotibOlish(StatesGroup):
     crypto_money=State()
     number_of_card=State()
 
-@router.callback_query(F.data.startswith("sotib_olish:"))
+@router.callback_query(F.data.startswith("sotib_olish:") | (F.data == "buyurtma_berish"))
 async def sotib_olish(call:CallbackQuery,state:FSMContext):
     await call.message.answer(f"Mahsulotni yetkazib berishimiz uchun manzilingizni yuboring:",reply_markup=location())
     await state.set_state(SotibOlish.location)
@@ -45,4 +45,8 @@ async def sotib_olish3(msg:Message,state:FSMContext):
         await state.clear()
     else:
         await msg.answer("Iltimos haqiqiy karta raqamingizni kiriting!")
+
+
+
+
         
