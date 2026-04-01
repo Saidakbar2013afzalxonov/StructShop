@@ -20,8 +20,18 @@ async def mahsulot_qoshish(msg:Message,state:FSMContext):
 @router.message(MahsulotQoshish.name)
 async def add_product(msg:Message,state:FSMContext):
     await state.update_data(name=msg.text)
-    await msg.answer("Mahsulot narxini kiriting: ")
-    await state.set_state(MahsulotQoshish.price)
+    # await msg.answer("Mahsulot narxini kiriting: ")
+    # if msg.text==str():
+    #     await msg.answer("Iltimos mahsulot nariga son kiriting!")
+    # else:
+    #     await state.set_state(MahsulotQoshish.price)
+    await msg.answer("Mahsulot narxini kiriting:")
+
+    if not msg.text.isdigit():
+        await msg.answer("Iltimos mahsulot narxini son ko‘rinishida kiriting!")
+    else:
+        await state.update_data(price=int(msg.text))
+        await state.set_state(MahsulotQoshish.price)
     
 @router.message(MahsulotQoshish.price)
 async def add_product(msg:Message,state:FSMContext):
